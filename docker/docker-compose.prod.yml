@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: game_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: game_store
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - game_net
+
+  backend:
+    container_name: game_backend
+    build: ../backend
+    restart: always
+    env_file:
+      - ../.env.prod
+    depends_on:
+      - postgres
+    networks:
+      - game_net
+
+  frontend:
+    container_name: game_frontend
+    build: ../frontend
+    restart: always
+    env_file:
+      - ../.env.prod
+    depends_on:
+      - backend
+    networks:
+      - game_net
+
+volumes:
+  pgdata:
+
+networks:
+  game_net:
