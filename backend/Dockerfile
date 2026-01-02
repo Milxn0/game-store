@@ -1,4 +1,4 @@
-FROM oven/bun:1.1.45-node20
+FROM oven/bun:latest
 
 WORKDIR /app
 COPY . .
