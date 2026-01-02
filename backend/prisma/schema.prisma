@@ -4,6 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -11,6 +12,32 @@ model User {
   email     String   @unique
   password  String
   role      Role     @default(USER)
+  orders    Order[]
+  createdAt DateTime @default(now())
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  gameName    String
+  description String?
+  price       Int
+  accounts    Account[]
+}
+
+model Account {
+  id        String   @id @default(uuid())
+  username  String
+  password  String
+  sold      Boolean  @default(false)
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
+}
+
+model Order {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId   String
+  total    Int
   createdAt DateTime @default(now())
 }
 
