@@ -1,0 +1,17 @@
+# env
+.env*
+!.env.example
+
+# node / bun
+node_modules
+dist
+.next
+
+# prisma
+prisma/migrations
+
+# docker
+.pgdata
+
+# os
+.DS_Store
